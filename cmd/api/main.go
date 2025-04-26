@@ -1,7 +1,20 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"net/http"
+
+	"github.com/julienschmidt/httprouter"
+)
+
+type application struct {
+}
 
 func main() {
-	fmt.Println("Hello, world!")
+	app := &application{}
+
+	router := httprouter.New()
+	router.HandlerFunc(http.MethodGet, "/", app.sayHello)
+
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
