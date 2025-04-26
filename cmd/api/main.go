@@ -1,20 +1,35 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
 )
 
+type config struct {
+	port int
+}
+
 type application struct {
+	config config
 }
 
 func main() {
-	app := &application{}
+	var cfg config
+
+	flag.IntVar(&cfg.port, "port", 8080, "Api server port")
+	flag.Parse()
+
+	app := &application{
+		config: cfg,
+	}
 
 	router := httprouter.New()
 	router.HandlerFunc(http.MethodGet, "/", app.sayHello)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	fmt.Println("starting server on port:", app.config.port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", cfg.port), router))
 }
