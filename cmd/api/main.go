@@ -29,6 +29,7 @@ func main() {
 
 	router := httprouter.New()
 	router.HandlerFunc(http.MethodGet, "/", app.sayHello)
+	router.HandlerFunc(http.MethodGet, "/accounts", app.CreateAccount)
 
 	fmt.Println("starting server on port:", app.config.port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", cfg.port), router))
