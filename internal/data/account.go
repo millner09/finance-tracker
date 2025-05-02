@@ -1,11 +1,13 @@
 package data
 
+import "time"
+
 type Account struct {
-	ID          int         `json:"id"`
+	ID          int64       `json:"id"`
 	AccountName string      `json:"account_name"`
 	AccountType AccountType `json:"account_type"`
 	Institution string      `json:"institution"`
-	Balance     float64     `json:"balance"`
+	CreatedAt   time.Time   `json:"-"` // Use the - directive
 }
 
 type AccountType string

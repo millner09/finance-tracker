@@ -14,7 +14,6 @@ func (app *application) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	account.AccountName = "Checking"
 	account.AccountType = data.Checking
 	account.Institution = "Ally"
-	account.Balance = 1000.01
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(account)
