@@ -1,10 +1,21 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
+
+	"amillner.dev/finance-tracker/internal/data"
 )
 
 func (app *application) CreateAccount(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/plain")
-	w.Write([]byte("Hello, world!"))
+	var account data.Account
+
+	account.ID = 1
+	account.AccountName = "Checking"
+	account.AccountType = data.Checking
+	account.Institution = "Ally"
+	account.Balance = 1000.01
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(account)
 }
