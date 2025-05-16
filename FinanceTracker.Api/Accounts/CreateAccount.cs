@@ -3,12 +3,32 @@ using FluentValidation;
 
 namespace FinanceTracker.Api.Accounts
 {
+    /// <summary>
+    /// A class that represents a request to create an account.
+    /// </summary>
     public class CreateAccount
     {
+        /// <summary>
+        /// A request to create an account.
+        /// </summary>
+        /// <param name="Name">The name of the account.</param>
+        /// <param name="Description">The description of the account.</param>
+        /// <param name="Type">The type of account</param>
         public record Request(string Name, string? Description, string Type);
+
+        /// <summary>
+        /// A response to the create account request.
+        /// </summary>
+        /// <param name="Id">The unique identifier of the newly created account.</param>
+        /// <param name="Name">The name of the account.</param>
+        /// <param name="Description">The description of the account. This may be an empty string if not provided.</param>
+        /// <param name="Type">The type of the account (e.g., "savings", "checking").</param>
         public record Response(int Id, string Name, string Description, string Type);
 
-        public class  RequestValidator : AbstractValidator<Request>
+        /// <summary>
+        /// Validator for the create account request.
+        /// </summary>
+        public class RequestValidator : AbstractValidator<Request>
         {
             public RequestValidator()
             {
@@ -22,8 +42,15 @@ namespace FinanceTracker.Api.Accounts
             }
         }
 
+        /// <summary>
+        /// Endpoint for creating an account.
+        /// </summary>
         public sealed class Endpoint : IEndpoint
         {
+            /// <summary>
+            /// Maps the endpoint to the application.
+            /// </summary>
+            /// <param name="app"></param>
             public void MapEndpoint(IEndpointRouteBuilder app)
             {
                 app.MapPost("accounts", async (Request request, AccountsDb accountsDb, IValidator<Request> validator) =>
@@ -44,7 +71,7 @@ namespace FinanceTracker.Api.Accounts
                     accountsDb.Accounts.Add(account);
 
                     var saveResult = await accountsDb.SaveChangesAsync();
-                    if(saveResult == 0)
+                    if (saveResult == 0)
                     {
                         return Results.Problem("An error occurred while saving the account.");
                     }
