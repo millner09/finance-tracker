@@ -6,6 +6,7 @@
 *.dylib
 *.test
 *.out
+finance-tracker
 
 # Output of the go coverage tool
 *.coverprofile
